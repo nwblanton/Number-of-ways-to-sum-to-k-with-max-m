@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void solve() {
+}
+
+int main() {
+    cin.tie(nullptr)->sync_with_stdio(false);
+    int test = 1;
+    cin >> test;
+    while (test--) {
+        solve();
+    }
+}
+
+// things to add after:
+#include <cstdio>
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef vector<bool> vb;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+#define all(x) begin(x), end(x)
+#define sz(x) (int)(x).size()
+#define rep(i, a, b) for(int i = a; i < (b); ++i)
+
+// dont need to type out, just unsure if its anywhere else:
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <ext/pb_ds/detail/standard_policies.hpp>
+using namespace __gnu_pbds;
+typedef tree<pll, null_type, less<pll>, rb_tree_tag, tree_order_statistics_node_update> OS;
+
+
+// Calculate number of ways to have n items sum to k with maximum m
+// time complexity: O(n) (or technically O(n/m) I think with O(n) precomputation)
+// n = number of items; m = maximum value; k = total sum; MOD = mod value
+// fct[i] = i! ; fctinv[i] = (i!)^{-1} (mod MOD)
+
+ll mult = 1;
+ll ans = 0;
+for (int j = 0; j <= n; j++) {
+    int num = n + k - 1;
+    num -= j * (m + 1);
+    if (num < n - 1) break;
+    ll v1 = (fct[n] * fctinv[j]) % MOD;
+    v1 *= fctinv[n - j];
+    v1 %= MOD;
+    v1 *= fct[num];
+    v1 %= MOD;
+    v1 *= fctinv[n - 1];
+    v1 %= MOD;
+    v1 *= fctinv[num - n + 1];
+    v1 %= MOD;
+    ans += v1 * mult;
+    ans %= MOD;
+    if (ans < 0) ans += MOD;
+    mult *= -1;
+}
